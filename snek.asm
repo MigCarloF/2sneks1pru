@@ -162,11 +162,6 @@ _SET_CURSOR ENDP
 ;-------------------------------------------
 _MOVE_UP PROC NEAR
 
-CALL _MOVE_CURSOR_LEFT
-LEA DX, SPACE
-PUSH DX
-CALL _DISPLAY
-
   CMP CURR_POS_Y, 01H
   JG _REGULAR_DISPLAY_UP
 
@@ -194,7 +189,6 @@ _DISPLAY PROC NEAR
   PUSH BX
   MOV AH, 9
   INT 21H
-  INC CURR_POS_X
   RET
 _DISPLAY ENDP
 ;-------------------------------------------
