@@ -4,6 +4,85 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
 .STACK 32
 ;---------------------------------------------
 .DATA
+  ;menu data
+  TITLESCREEN DB ".-----------------------------------------------------------------------------.", 10, 13
+    DB "|                        ___     _____            _                           |", 10, 13
+    DB "|                       |__ \   / ____|          | |                          |", 10, 13
+    DB "|                          ) | | (___  _ __   ___| | _____                    |", 10, 13
+    DB "|                         / /   \___ \| '_ \ / _ \ |/ / __|                   |", 10, 13
+    DB "|                        / /_   ____) | | | |  __/   <\__ \                   |", 10, 13
+    DB "|                       |____| |_____/|_| |_|\___|_|\_\___/                   |", 10, 13
+    DB "|                         /_ | |  __ \                                        |", 10, 13
+    DB "|                          | | | |__) | __ _   _                              |", 10, 13
+    DB "|                          | | |  ___/ '__| | | |                             |", 10, 13
+    DB "|                          | | | |   | |  | |_| |                             |", 10, 13
+    DB "|                          |_| |_|   |_|   \__,_|                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|-----------------------------------------------------------------------------|", 10, 13
+    DB "|         1)PLAY        |        2)HOW TO PLAY          |    3)QUIT           |", 10, 13
+    DB "|-----------------------------------------------------------------------------|", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                         TEAM Green Tea Experts                              |", 10, 13
+    DB ".-----------------------------------------------------------------------------.", '$'
+
+  HOW2PLAY DB ".-----------------------------------------------------------------------------.", 10, 13
+    DB "|                   _  _              _         ___ _                         |", 10, 13
+    DB "|                  | || |_____ __ __ | |_ ___  | _ \ |__ _ _  _               |", 10, 13
+    DB "|                  | __ / _ \ V  V / |  _/ _ \ |  _/ / _` | || |              |", 10, 13
+    DB "|                  |_||_\___/\_/\_/   \__\___/ |_| |_\__,_|\_, |              |", 10, 13
+    DB "|                                                          |__/               |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|  -USE THE ARROW KEYS TO CONTROL THE SNEKS                                   |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|  -TRY TO COLLECT AS MUCH FOOD AS YOU CAN WHILE THE SNEKS ALTERNATELY        |", 10, 13
+    DB "|           LISTEN FOR YOUR KEY PRESSES                                       |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|  -MIDAS TOUCH TO YOU, PRU                                                   |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                 --------                                    |", 10, 13
+    DB "|                                 |1)Back|                                    |", 10, 13
+    DB "|                                 --------                                    |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB ".-----------------------------------------------------------------------------.", '$'
+
+  GG 	DB ".-----------------------------------------------------------------------------.", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|           _____   ___  ___  ___ _____   _____  _   _ ___________            |", 10, 13
+    DB "|          |  __ \ / _ \ |  \/  ||  ___| |  _  || | | |  ___| ___ \           |", 10, 13
+    DB "|          | |  \// /_\ \| .  . || |__   | | | || | | | |__ | |_/ /           |", 10, 13
+    DB "|          | | __ |  _  || |\/| ||  __|  | | | || | | |  __||    /            |", 10, 13
+    DB "|          | |_\ \| | | || |  | || |___  \ \_/ /\ \_/ / |___| |\ \            |", 10, 13
+    DB "|           \____/\_| |_/\_|  |_/\____/   \___/  \___/\____/\_| \_|           |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|-----------------------------------------------------------------------------|", 10, 13
+    DB "|                            Final Score:                                     |", 10, 13
+    DB "|-----------------------------------------------------------------------------|", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB "|                                                                             |", 10, 13
+    DB ".-----------------------------------------------------------------------------.", '$'
+
   ;etc data
   MSG DB 'TEST$'
   NL DB 10, 13, '$'
@@ -42,7 +121,6 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
   CURR_DIRECTION_T DB ?
   SNAKE_ATE DB ?
 
-
   ;data for snakes
   ;SNAKE_1 uses DI - SNAKE_2 uses SI
   SNAKE_1_POS_H_X DB 15H
@@ -71,21 +149,41 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
     ;identify which snake listens for next input
     SNAKE_TURN DB 1
     IS_GAME_OVER DB 0
-    FOOD DB '*$'
+    FOOD DB '*'
+    FOOD_DONE_PRINT DB '$'
     FOOD_POS_X DB ?
     FOOD_POS_Y DB ?
     FOOD_IS_SPAWNED DB 0
 
   ;other data
-  ACTUAL_SCORE DW 0
+  ACTUAL_SCORE_TENS DB 0
+  ACTUAL_SCORE_ONES DB 0
   ACTUAL_SCORE_END DB '$'
+
   SCORE DB 'Score: $'
+  HIGH_SCORE DB 'Highscore: $'
+
+  HIGH_SCORE_TENS DB 1 DUP()
+  HIGH_SCORE_ONES DB 2 DUP('$')
+
   WALL DB 'M$'
   TEMP DB ?
   GENERATER_UPPER_LIMIT DW ?
   GENERATER_LOWER_LIMIT DW ?
   RANDOM_NUMBER DB ?
   RANDOM_NUMBER_END_DISPLAY DB '$'
+
+  ;data for reading highscore files
+  HIGH_SCORE_TENS_FILE DB 'tens.txt', 00H
+  HIGH_SCORE_ONES_FILE DB 'ones.txt', 00H
+  PATHFILENAME  DB 'record.txt', 00H
+  FILEHANDLE DW ?
+  ERROR1_STR_R    DB 'Error in opening file.$'
+  ERROR2_STR_R    DB 'Error reading from file.$'
+  ERROR3_STR_R    DB 'No record read from file.$'
+  ERROR1_STR    DB 'Error in creating file.$'
+  ERROR2_STR    DB 'Error writing in file.$'
+  ERROR3_STR    DB 'Record not written properly.$'
 ;---------------------------------------------
 .CODE
 MAIN PROC FAR
@@ -93,7 +191,7 @@ MAIN PROC FAR
   MOV DS, AX
 
   ;all code here
-  CALL _PERFORM
+  CALL _DISPLAY_SCREENS
   ;CALL _TESTS
 
   MOV AH, 4CH
@@ -111,10 +209,6 @@ MAIN ENDP
       CALL _DELAY
       CALL _GET_KEY
 
-      MOV AH, 02
-      MOV DL, AL
-      INT 21H
-
       CMP NEW_INPUT, 1
       JE EXIT
       CMP IS_GAME_OVER, 01
@@ -122,6 +216,12 @@ MAIN ENDP
 
       CALL _GENERATE_FOOD
       CALL _MOVE_LOGIC
+      CALL _DISPLAY_SCORE
+
+      MOV CURR_POS_X, 79
+      MOV CURR_POS_X, 24  ;This block hides cursor
+      CALL _SET_CURSOR
+
       JMP GAME_PROPER
 
     EXIT:
@@ -129,13 +229,8 @@ MAIN ENDP
   _PERFORM ENDP
 ;---------------------------------------------
   _TESTS PROC NEAR
-    MOV GENERATER_LOWER_LIMIT, 01
-    MOV GENERATER_UPPER_LIMIT, 09
-    CALL _GENERATE_NUMBER
+    MOV AH, 02
 
-    ADD RANDOM_NUMBER, 30H
-    LEA DX, RANDOM_NUMBER
-    CALL _DISPLAY
       RET
   _TESTS ENDP
 ;---------------------------------------------
@@ -184,7 +279,6 @@ MAIN ENDP
         ;MOV CURR_POS_Y, 09H
         ;MOV CURR_POS_X, 10H
         ;CALL _SET_CURSOR
-
 
       ;--_MOVE_CURSOR_LEFT--
       ;--_MOVE_CURSOR_UP--
@@ -345,7 +439,225 @@ MAIN ENDP
       ;--_INITIALIZE_BORDERS
       ;--_CLEAR_SCREEN
 
+;-------------------------------------------
+_DISPLAY_SCREENS PROC NEAR ;displays the main menu and how 2 play
+	BIG:
+	;CALL CLEAR
+	PRINT:
+	MOV CURR_POS_X, 00
+  MOV CURR_POS_Y, 00
+	CALL _SET_CURSOR
 
+	MOV AH, 09H
+	LEA DX, TITLESCREEN
+	INT 21H
+
+	MOV AH, 10H
+	INT 16H
+	MOV NEW_INPUT, AL
+
+	CMP NEW_INPUT, '1'
+	JNE CONTINUE_MENU
+  MOV NEW_INPUT, 00
+  CALL _PERFORM
+  JMP GG_SCREEN
+
+  CONTINUE_MENU:
+	CMP NEW_INPUT, '2'
+	JE HOW2
+
+	CMP NEW_INPUT, '3'
+	JE EXIT_SCREEN
+
+	JMP PRINT
+
+	HOW2:
+	MOV CURR_POS_X, 00
+  MOV CURR_POS_Y, 00
+	CALL _SET_CURSOR
+
+	MOV AH, 09H
+	LEA DX, HOW2PLAY
+	INT 21H
+
+	MOV AH, 10H
+	INT 16H
+	MOV NEW_INPUT, AL
+
+	CMP NEW_INPUT, '1'
+	JE PRINT
+
+	JMP HOW2
+
+	JMP BIG
+
+  GG_SCREEN:
+  LEA DX, GG
+  MOV AH, 09H
+  INT 21H
+
+  MOV CURR_POS_X, 42
+  MOV CURR_POS_Y, 16
+  CALL _SET_CURSOR
+
+  LEA DX, ACTUAL_SCORE_TENS
+  CALL _DISPLAY
+
+  CALL _WRITE_HIGH_SCORE
+
+  MOV AH, 10
+  INT 16H
+
+	EXIT_SCREEN:
+	CALL TERMINATE
+
+	RET
+_DISPLAY_SCREENS ENDP
+;-------------------------------------------
+;-------------------------------------------
+;-------------------------------------------
+;-------------------------------------------
+;File Handling Procedures
+;-------------------------------------------
+;-------------------------------------------
+;-------------------------------------------
+;-------------------------------------------
+_READ_HIGH_SCORE PROC NEAR
+
+  ;open file for tens
+  MOV AH, 3DH           ;requst open file
+  MOV AL, 00            ;read only; 01 (write only); 10 (read/write)
+  LEA DX, HIGH_SCORE_TENS_FILE
+  INT 21H
+  JC DISPLAY_ERROR1_R
+  MOV FILEHANDLE, AX
+
+  ;read file
+  MOV AH, 3FH           ;request read record
+  MOV BX, FILEHANDLE    ;file handle
+  MOV CX, 1            ;record length
+  LEA DX, HIGH_SCORE_TENS ;address of input area
+  INT 21H
+  JC DISPLAY_ERROR2_R
+  CMP AX, 00            ;zero bytes read?
+  JE DISPLAY_ERROR3_R
+
+  ;open file for ones
+  MOV AH, 3DH           ;requst open file
+  MOV AL, 00            ;read only; 01 (write only); 10 (read/write)
+  LEA DX, HIGH_SCORE_ONES_FILE
+  INT 21H
+  JC DISPLAY_ERROR1_R
+  MOV FILEHANDLE, AX
+
+  ;read file
+  MOV AH, 3FH           ;request read record
+  MOV BX, FILEHANDLE    ;file handle
+  MOV CX, 1            ;record length
+  LEA DX, HIGH_SCORE_ONES ;address of input area
+  INT 21H
+  JC DISPLAY_ERROR2_R
+  CMP AX, 00            ;zero bytes read?
+  JE DISPLAY_ERROR3_R
+
+  ;close file handle
+  MOV AH, 3EH           ;request close file
+  MOV BX, FILEHANDLE    ;file handle
+  INT 21H
+
+  JMP EXIT_READ
+
+  DISPLAY_ERROR1_R:
+    LEA DX, ERROR1_STR_R
+    MOV AH, 09
+    INT 21H
+
+  JMP EXIT_READ
+
+  DISPLAY_ERROR2_R:
+    LEA DX, ERROR2_STR_R
+    MOV AH, 09
+    INT 21H
+
+  JMP EXIT_READ
+
+  DISPLAY_ERROR3_R:
+    LEA DX, ERROR3_STR_R
+    MOV AH, 09
+    INT 21H
+
+  EXIT_READ:
+    RET
+_READ_HIGH_SCORE ENDP
+;-------------------------------------------
+_WRITE_HIGH_SCORE PROC NEAR
+
+;create file tens
+MOV AH, 3CH           ;request create file
+MOV CX, 00            ;normal attribute
+LEA DX, HIGH_SCORE_TENS_FILE  ;load path and file name
+INT 21H
+JC DISPLAY_ERROR1_W     ;if there's error in creating file, carry flag = 1, otherwise 0
+MOV FILEHANDLE, AX
+
+;write file
+MOV AH, 40H           ;request write record
+MOV BX, FILEHANDLE    ;file handle
+MOV CX, 1            ;record length
+LEA DX, HIGH_SCORE_TENS    ;address of output area
+INT 21H
+JC DISPLAY_ERROR2_W     ;if carry flag = 1, there's error in writing (nothing is written)
+CMP AX, 1            ;after writing, set AX to size of chars nga na write
+JNE DISPLAY_ERROR3_W
+
+;create file ones
+MOV AH, 3CH           ;request create file
+MOV CX, 00            ;normal attribute
+LEA DX, HIGH_SCORE_ONES_FILE  ;load path and file name
+INT 21H
+JC DISPLAY_ERROR1_W     ;if there's error in creating file, carry flag = 1, otherwise 0
+MOV FILEHANDLE, AX
+
+;write file
+MOV AH, 40H           ;request write record
+MOV BX, FILEHANDLE    ;file handle
+MOV CX, 1            ;record length
+LEA DX, HIGH_SCORE_ONES    ;address of output area
+INT 21H
+JC DISPLAY_ERROR2_W     ;if carry flag = 1, there's error in writing (nothing is written)
+CMP AX, 1           ;after writing, set AX to size of chars nga na write
+JNE DISPLAY_ERROR3_W
+
+;close file handle
+MOV AH, 3EH           ;request close file
+MOV BX, FILEHANDLE    ;file handle
+INT 21H
+
+JMP EXIT_WRITE
+
+DISPLAY_ERROR1_W:
+LEA DX, ERROR1_STR
+MOV AH, 09
+INT 21H
+
+JMP EXIT_WRITE
+
+DISPLAY_ERROR2_W:
+LEA DX, ERROR2_STR
+MOV AH, 09
+INT 21H
+
+JMP EXIT_WRITE
+
+DISPLAY_ERROR3_W:
+LEA DX, ERROR3_STR
+MOV AH, 09
+INT 21H
+
+EXIT_WRITE:
+
+    RET
+_WRITE_HIGH_SCORE ENDP
 ;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
@@ -354,6 +666,71 @@ MAIN ENDP
 ;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
+;-------------------------------------------
+_INCREASE_SCORE PROC NEAR
+
+  CMP ACTUAL_SCORE_ONES, '9'
+  JNE SCORE_ONES_NOT_9
+
+  MOV ACTUAL_SCORE_ONES, '0'
+  INC ACTUAL_SCORE_TENS
+  JMP LEAVE_INCREASE_SCORE
+
+  SCORE_ONES_NOT_9:
+  INC ACTUAL_SCORE_ONES
+
+  CALL _COMPARE_SCORE_TO_HIGHSCORE
+
+  LEAVE_INCREASE_SCORE:
+    RET
+_INCREASE_SCORE ENDP
+;-------------------------------------------
+_COMPARE_SCORE_TO_HIGHSCORE PROC NEAR
+
+  MOV AL, ACTUAL_SCORE_TENS
+  CMP AL, HIGH_SCORE_TENS
+  JG SCORE_BEAT
+
+  CMP AL, HIGH_SCORE_TENS
+  JL NOT_BEAT_YET
+
+  CMP AL, HIGH_SCORE_TENS
+  JE CMP_ONES
+  JMP NOT_BEAT_YET
+
+  CMP_ONES:
+  MOV AL, ACTUAL_SCORE_ONES
+  CMP AL, HIGH_SCORE_ONES
+  JG SCORE_BEAT
+  JMP NOT_BEAT_YET
+
+  SCORE_BEAT:
+  MOV AL, ACTUAL_SCORE_TENS
+  MOV HIGH_SCORE_TENS, AL
+
+  MOV AL, ACTUAL_SCORE_ONES
+  MOV HIGH_SCORE_ONES, AL
+
+  NOT_BEAT_YET:
+    RET
+_COMPARE_SCORE_TO_HIGHSCORE ENDP
+;-------------------------------------------
+_DISPLAY_SCORE PROC NEAR
+
+  MOV CURR_POS_X, 10
+  MOV CURR_POS_Y, 24
+  CALL _SET_CURSOR
+  LEA DX, ACTUAL_SCORE_TENS
+  CALL _DISPLAY
+
+  MOV CURR_POS_X, 35
+  MOV CURR_POS_Y, 24
+  CALL _SET_CURSOR
+  LEA DX, HIGH_SCORE_TENS
+  CALL _DISPLAY
+
+    RET
+_DISPLAY_SCORE ENDP
 ;-------------------------------------------
 _MOVE_LOGIC PROC NEAR
   CMP SNAKE_TURN, 01
@@ -542,8 +919,8 @@ _S2_HORIZONTAL_LOGIC PROC NEAR
 _S2_HORIZONTAL_LOGIC ENDP
 ;-------------------------------------------
 _DELAY PROC	NEAR
-			MOV BP, 8 ;lower value faster
-			MOV SI, 8 ;lower value faster
+			MOV BP, 5 ;lower value faster
+			MOV SI, 5 ;lower value faster
 		delay2:
 			DEC BP
 			NOP
@@ -603,9 +980,6 @@ _GENERATE_NUMBER PROC NEAR        ; generate a rand no using the system time
    ADD DX, GENERATER_LOWER_LIMIT
    MOV RANDOM_NUMBER, DL
 
-   ;value is stored in dl btw
-   lea dx, RANDOM_NUMBER
-   call _DISPLAY
     RET
 _GENERATE_NUMBER ENDP
 ;-------------------------------------------
@@ -614,6 +988,11 @@ _DISPLAY PROC NEAR
   INT 21H
   RET
 _DISPLAY ENDP
+;-------------------------------------------
+TERMINATE PROC NEAR
+	MOV AX, 4C00H
+	INT 21H
+TERMINATE ENDP
 ;-------------------------------------------
 _GET_KEY	PROC	NEAR
 			MOV		AH, 01H		;check for input
@@ -699,7 +1078,10 @@ _CHECK_COLLISION PROC NEAR
   NEXT_COL_CHECK:
   CMP AL, FOOD
   JNE NEXT1_COL_CHECK
-  MOV SNAKE_ATE, 01
+
+  CALL _INCREASE_SCORE
+  MOV FOOD_IS_SPAWNED, 00
+  MOV SNAKE_ATE, 1
   JMP LEAVE_COL
 
   NEXT1_COL_CHECK:
@@ -721,7 +1103,7 @@ _CHECK_COLLISION PROC NEAR
   JMP LEAVE_COL
 
   NEXT4_COL_CHECK:
-  CMP CURR_POS_Y, 24
+  CMP CURR_POS_Y, 23
   JNE LEAVE_COL
   MOV IS_GAME_OVER, 01
   JMP LEAVE_COL
@@ -741,6 +1123,7 @@ _CHECK_COLLISION ENDP
 _MOVE_LEFT_GENERAL PROC NEAR
 
   CALL _MOVE_CURSOR_LEFT
+  CALL _CHECK_COLLISION
   LEA DX, SNAKE_BODY
   CALL _DISPLAY
 
@@ -750,6 +1133,7 @@ _MOVE_LEFT_GENERAL ENDP
 _MOVE_UP_GENERAL PROC NEAR
 
   CALL _MOVE_CURSOR_UP
+  CALL _CHECK_COLLISION
   LEA DX, SNAKE_BODY
   CALL _DISPLAY
 
@@ -759,6 +1143,7 @@ _MOVE_UP_GENERAL ENDP
 _MOVE_RIGHT_GENERAL PROC NEAR
 
   CALL _MOVE_CURSOR_RIGHT
+  CALL _CHECK_COLLISION
   LEA DX, SNAKE_BODY
   CALL _DISPLAY
 
@@ -768,6 +1153,7 @@ _MOVE_RIGHT_GENERAL ENDP
 _MOVE_DOWN_GENERAL PROC NEAR
 
   CALL _MOVE_CURSOR_DOWN
+  CALL _CHECK_COLLISION
   LEA DX, SNAKE_BODY
   CALL _DISPLAY
 
@@ -850,6 +1236,7 @@ _SNAKE_1_MOVE_LEFT PROC NEAR
   CALL _SET_CURSOR_SNAKE_1_H
   CALL _MOVE_LEFT_GENERAL
   CALL _STORE_SNAKE_POS_1_H
+  CALL _CHECK_SNAKE_1_ATE
 
   ;this enqueues move left
   MOV AH, 00H
@@ -867,6 +1254,7 @@ _SNAKE_1_MOVE_UP PROC NEAR
   CALL _SET_CURSOR_SNAKE_1_H
   CALL _MOVE_UP_GENERAL
   CALL _STORE_SNAKE_POS_1_H
+  CALL _CHECK_SNAKE_1_ATE
 
   ;this enqueues move up
   MOV AH, 00H
@@ -884,6 +1272,7 @@ _SNAKE_1_MOVE_RIGHT PROC NEAR
   CALL _SET_CURSOR_SNAKE_1_H
   CALL _MOVE_RIGHT_GENERAL
   CALL _STORE_SNAKE_POS_1_H
+  CALL _CHECK_SNAKE_1_ATE
 
   ;this enqueues move right
   MOV AH, 00H
@@ -901,6 +1290,7 @@ _SNAKE_1_MOVE_DOWN PROC NEAR
   CALL _SET_CURSOR_SNAKE_1_H
   CALL _MOVE_DOWN_GENERAL
   CALL _STORE_SNAKE_POS_1_H
+  CALL _CHECK_SNAKE_1_ATE
 
   ;this enqueues move down
   MOV AH, 00H
@@ -934,6 +1324,17 @@ _SNAKE_1_MOVE_T PROC NEAR
     RET
 _SNAKE_1_MOVE_T ENDP
 ;-------------------------------------------
+_CHECK_SNAKE_1_ATE PROC NEAR
+
+  CMP SNAKE_ATE, 01
+  JNE LEAVE_CHECK_1_ATE
+  MOV SNAKE_1_HAS_EATEN, 01
+  MOV SNAKE_ATE, 00
+
+  LEAVE_CHECK_1_ATE:
+    RET
+_CHECK_SNAKE_1_ATE ENDP
+;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
@@ -947,6 +1348,7 @@ _SNAKE_2_MOVE_LEFT PROC NEAR
   CALL _SET_CURSOR_SNAKE_2_H
   CALL _MOVE_LEFT_GENERAL
   CALL _STORE_SNAKE_POS_2_H
+  CALL _CHECK_SNAKE_2_ATE
 
   ;this enqueues move left
   MOV AH, 00H
@@ -964,6 +1366,7 @@ _SNAKE_2_MOVE_UP PROC NEAR
   CALL _SET_CURSOR_SNAKE_2_H
   CALL _MOVE_UP_GENERAL
   CALL _STORE_SNAKE_POS_2_H
+  CALL _CHECK_SNAKE_2_ATE
 
   ;this enqueues move up
   MOV AH, 00H
@@ -981,6 +1384,7 @@ _SNAKE_2_MOVE_RIGHT PROC NEAR
   CALL _SET_CURSOR_SNAKE_2_H
   CALL _MOVE_RIGHT_GENERAL
   CALL _STORE_SNAKE_POS_2_H
+  CALL _CHECK_SNAKE_2_ATE
 
   ;this enqueues move right
   MOV AH, 00H
@@ -998,6 +1402,7 @@ _SNAKE_2_MOVE_DOWN PROC NEAR
   CALL _SET_CURSOR_SNAKE_2_H
   CALL _MOVE_DOWN_GENERAL
   CALL _STORE_SNAKE_POS_2_H
+  CALL _CHECK_SNAKE_2_ATE
 
   ;this enqueues move down
   MOV AH, 00H
@@ -1029,6 +1434,18 @@ _SNAKE_2_MOVE_T PROC NEAR
   MOV SNAKE_2_HAS_EATEN, 00
     RET
 _SNAKE_2_MOVE_T ENDP
+;-------------------------------------------
+_CHECK_SNAKE_2_ATE PROC NEAR
+
+  CMP SNAKE_ATE, 01
+  JNE LEAVE_CHECK_2_ATE
+  MOV SNAKE_2_HAS_EATEN, 01
+  MOV SNAKE_ATE, 00
+
+  LEAVE_CHECK_2_ATE:
+    RET
+_CHECK_SNAKE_2_ATE ENDP
+;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
 ;-------------------------------------------
@@ -1406,6 +1823,10 @@ _INITIALIZE PROC NEAR
   CALL _CLEAR_SCREEN
   CALL _INITIALIZE_BORDERS
   CALL _INITIALIZE_SNAKES
+  CALL _READ_HIGH_SCORE
+
+  ADD ACTUAL_SCORE_TENS, 30H
+  ADD ACTUAL_SCORE_ONES, 30H
     RET
 _INITIALIZE ENDP
 ;--------------------------------------------
@@ -1466,6 +1887,13 @@ _INITIALIZE_BORDERS PROC NEAR
   CALL _SET_CURSOR
   LEA DX, SCORE
   CALL _DISPLAY
+
+  MOV CURR_POS_X, 25
+  MOV CURR_POS_Y, 24
+  CALL _SET_CURSOR
+  LEA DX, HIGH_SCORE
+  CALL _DISPLAY
+
     RET
 _INITIALIZE_BORDERS ENDP
 ;--------------------------------------------
