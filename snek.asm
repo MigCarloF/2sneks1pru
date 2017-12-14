@@ -71,7 +71,7 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
     ;identify which snake listens for next input
     SNAKE_TURN DB 1
     IS_GAME_OVER DB 0
-    FOOD DB '*'
+    FOOD DB '*$'
     FOOD_POS_X DB ?
     FOOD_POS_Y DB ?
     FOOD_IS_SPAWNED DB 0
@@ -82,9 +82,10 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
   SCORE DB 'Score: $'
   WALL DB 'M$'
   TEMP DB ?
-  GENERATER_UPPER_LIMIT DB ?
-  GENERATER_LOWER_LIMIT DB ?
+  GENERATER_UPPER_LIMIT DW ?
+  GENERATER_LOWER_LIMIT DW ?
   RANDOM_NUMBER DB ?
+  RANDOM_NUMBER_END_DISPLAY DB '$'
 ;---------------------------------------------
 .CODE
 MAIN PROC FAR
@@ -110,7 +111,6 @@ MAIN ENDP
       CALL _DELAY
       CALL _GET_KEY
 
-
       MOV AH, 02
       MOV DL, AL
       INT 21H
@@ -120,7 +120,7 @@ MAIN ENDP
       CMP IS_GAME_OVER, 01
       JE EXIT
 
-      ;CALL _GENERATE_FOOD
+      CALL _GENERATE_FOOD
       CALL _MOVE_LOGIC
       JMP GAME_PROPER
 
@@ -129,6 +129,13 @@ MAIN ENDP
   _PERFORM ENDP
 ;---------------------------------------------
   _TESTS PROC NEAR
+    MOV GENERATER_LOWER_LIMIT, 01
+    MOV GENERATER_UPPER_LIMIT, 09
+    CALL _GENERATE_NUMBER
+
+    ADD RANDOM_NUMBER, 30H
+    LEA DX, RANDOM_NUMBER
+    CALL _DISPLAY
       RET
   _TESTS ENDP
 ;---------------------------------------------
@@ -138,6 +145,7 @@ MAIN ENDP
 ;---------------------------------------------
 ;---------------------------------------------
 ;---------------------------------------------
+
 ;-DIRECTIONS FOR EACH PROC
 
   ;MAIN
@@ -215,6 +223,14 @@ MAIN ENDP
       ;--_GENERATE_NUMBER--
         ;generates a number given an upper limit and lower limit
         ;stored in GENERATER_UPPER_LIMIT and GENERATER_LOWER_LIMIT
+        ;lower limit is included but upper limit is not
+        ;output stored in RANDOM_NUMBER
+        ;Logic ex:
+        ;upperLimit = 9 lowerLimit = 3
+        ;upperLimit -= lowerLimit
+        ;generates number from 0 to 6 e.g. 2
+        ;output += lower limit
+        ;output = 5
 
       ;--_DISPLAY--
         ;LEA DX, MSG
@@ -545,13 +561,13 @@ _GENERATE_FOOD PROC NEAR
 
   GENSTART:
     MOV GENERATER_LOWER_LIMIT, 01
-    MOV GENERATER_UPPER_LIMIT, 22
+    MOV GENERATER_UPPER_LIMIT, 23
     CALL _GENERATE_NUMBER
     MOV DL, RANDOM_NUMBER
     MOV CURR_POS_Y, DL
 
     MOV GENERATER_LOWER_LIMIT, 01
-    MOV GENERATER_UPPER_LIMIT, 78
+    MOV GENERATER_UPPER_LIMIT, 79
     CALL _GENERATE_NUMBER
     MOV DL, RANDOM_NUMBER
     MOV CURR_POS_X, DL
@@ -570,22 +586,26 @@ _GENERATE_FOOD PROC NEAR
 _GENERATE_FOOD ENDP
 ;-------------------------------------------
 _GENERATE_NUMBER PROC NEAR        ; generate a rand no using the system time
-RANDSTART:
+
+   MOV BX, GENERATER_LOWER_LIMIT
+   SUB GENERATER_UPPER_LIMIT, BX
+
    MOV AH, 00h  ; interrupts to get system time
    INT 1AH      ; CX:DX now hold number of clock ticks since midnight
                 ; lets just take the lower bits of DL for a start..
-   MOV BH, GENERATER_UPPER_LIMIT  ; set limit to 23
-   MOV AH, DL
-   CMP AH, BH   ; compare with value in  DL,
-   JA RANDSTART ; if more, regenerate. if not, continue...
 
-   MOV BH, GENERATER_LOWER_LIMIT   ; set limit to 1
-   MOV AH, DL
-   CMP AH, BH   ; compare with value in DL
-   JB RANDSTART ; if less, regenerate.
+   MOV AX, DX
+   XOR DX, DX
+   MOV CX, GENERATER_UPPER_LIMIT ;how many numbers to generate from 0 to variable
+   DIV CX ;HERE DX CONTAINS THE REMAINDER OF THE DIVISION - FROM 0 TO 9
 
-   ; if not, this is what we need
+   MOV DH, 00H
+   ADD DX, GENERATER_LOWER_LIMIT
    MOV RANDOM_NUMBER, DL
+
+   ;value is stored in dl btw
+   lea dx, RANDOM_NUMBER
+   call _DISPLAY
     RET
 _GENERATE_NUMBER ENDP
 ;-------------------------------------------
