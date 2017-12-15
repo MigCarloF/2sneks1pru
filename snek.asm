@@ -73,7 +73,7 @@ TITLE FILE READ (SIMPLFIED .EXE FORMAT)
     DB "|                                                                             |", 10, 13
     DB "|                                                                             |", 10, 13
     DB "|-----------------------------------------------------------------------------|", 10, 13
-    DB "|                            Final Score:                                     |", 10, 13
+    DB "|                     Final Score:          Highscore:                        |", 10, 13
     DB "|-----------------------------------------------------------------------------|", 10, 13
     DB "|                                                                             |", 10, 13
     DB "|                                                                             |", 10, 13
@@ -496,12 +496,23 @@ _DISPLAY_SCREENS PROC NEAR ;displays the main menu and how 2 play
   MOV AH, 09H
   INT 21H
 
-  MOV CURR_POS_X, 42
+  MOV CURR_POS_X, 35
   MOV CURR_POS_Y, 16
   CALL _SET_CURSOR
 
   LEA DX, ACTUAL_SCORE_TENS
   CALL _DISPLAY
+
+  MOV CURR_POS_X, 55
+  MOV CURR_POS_Y, 16
+  CALL _SET_CURSOR
+
+  LEA DX, HIGH_SCORE_TENS
+  CALL _DISPLAY
+
+  MOV CURR_POS_X, 00
+  MOV CURR_POS_Y, 24
+  CALL _SET_CURSOR
 
   CALL _WRITE_HIGH_SCORE
 
